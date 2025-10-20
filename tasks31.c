@@ -66,7 +66,7 @@ int main(){
     
     bool defineOOF(const double x)
     {
-        return x != -1 ;
+        return 1+2*x+pow(x,2)>0 ;
     }
     
     
