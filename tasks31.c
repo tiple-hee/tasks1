@@ -66,7 +66,7 @@ int main(){
     
     bool defineOOF(const double x)
     {
-        return x > 0;
+        return x != -1 ;
     }
     
     
