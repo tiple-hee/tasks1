@@ -24,6 +24,10 @@ double getValue();
  * @param value значение проверяемой переменной
  */
 void checkValue(const double value);
+/**
+@brief RADIAN - переводит значение из радиан в градусы
+@brief GRADUSI - переводит значение иг градусов в радиан
+*/
 enum{RADIAN=1,GRADUSI=2};
 /**
  * brief Точка входа в программу
@@ -41,7 +45,8 @@ int main(){
         printf("Ваше значение радиан:%lf",getDegrees());
         break;
     default:
-        printf("Неправильный выбор");  
+        printf("Неправильный выбор");
+        return(1);  
     }
     return 0;
 }
