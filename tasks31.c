@@ -27,7 +27,10 @@ void checkStep(const double step);
  * @return true, если аргумент принадлежит ООФ, иначе false
  */
 bool defineOOF(const double x);
-
+/**
+ * brief Точка входа в программу
+ * @return возвращает 0, если программма выполнена корректно
+ */
 int main(){
 	printf("Введите начальное значение: ");
 	double start = getValue();
@@ -68,9 +71,7 @@ int main(){
     
     
     double getY(const double x){
-        int y=getValue();
-        const int O=1;
-        return log(O/(1+2*x+pow(x,2)));
+        return log(1/(1+2*x+pow(x,2)));
     }
     
     double getValue()
