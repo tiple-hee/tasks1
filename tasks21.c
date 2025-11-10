@@ -41,7 +41,12 @@ double getTRh(const double a);
  * @return значение площади
  */
 double getTRRadius(const double a,const double b);
-
+/**
+@brief SQUAREPR - периметр прямоугольника
+@brief SQUARETR1 - площадь прямоугольника через синус
+@brief SQUARET2 - площадь треугольника через высоту
+@brief SQUARETR3 - площадь треугольнка через радиус
+*/
 enum {SQUAREPR=1,SQUARETR1=2,SQUARETR2=3,SQUARETR3=4};
 /**
  * brief Точка входа в программу
