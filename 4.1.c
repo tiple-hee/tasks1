@@ -16,7 +16,7 @@ int* copyArray(const int* arr, const size_t size);
 enum{Manual=1, Random=2};
 
 int main(){
-    srand(time(NULL)); // Инициализация генератора случайных чисел
+    srand(time(NULL));
     
     printf("Введите размер массива: ");
     size_t size = getSize();
@@ -47,7 +47,6 @@ int main(){
     printf("\nИсходный массив: ");
     printArray(arr, size);
     
-    // Создаем копию массива для каждой операции
     int* arr_copy1 = copyArray(arr, size);
     printf("\n\n1. Замена предпоследнего элемента на максимальный по модулю:");
     Zamena(arr_copy1, size);
@@ -147,7 +146,7 @@ void Zamena(int* arr, const size_t size){
         }
     }
     
-    arr[size - 2] = arr[max_index]; // Замена предпоследнего элемента
+    arr[size - 2] = arr[max_index];
 }
 
 int deln(int* arr, const size_t size, int N){
@@ -168,8 +167,8 @@ int deln(int* arr, const size_t size, int N){
 int findFirstDifferentSigns(int* arr, const size_t size){
     for (size_t i = 0; i < size - 1; i++){
         if ((arr[i] > 0 && arr[i + 1] < 0) || (arr[i] < 0 && arr[i + 1] > 0)){
-            return i; // Возвращаем индекс первого элемента пары
+            return i; 
         }
     }
-    return -1; // Пара не найдена
+    return -1;
 }
