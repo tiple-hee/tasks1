@@ -1,23 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#define scanf_s scanf
 
+/**
+ * @brief Считывает целое число с клавиатуры с проверкой корректности.
+ * @return int Введённое пользователем число.
+ */
 int Value();
+
+/**
+ * @brief Считывает натуральное число — размер массива.
+ * @return size_t Корректный размер массива (> 0).
+ */
 size_t getSize();
+
+/**
+ * @brief Заполняет массив значениями, введёнными пользователем.
+ * @param arr Указатель на массив.
+ * @param size Размер массива.
+ */
 void fillArray(int* arr, const size_t size);
+
+/**
+ * @brief Печатает одномерный массив.
+ * @param arr Массив для печати.
+ * @param size Размер массива.
+ */
 void printArray(int* arr, const size_t size);
+
+/**
+ * @brief Заполняет массив случайными числами 
+ * @param arr Указатель на массив.
+ * @param size Размер массива.
+ */
 void fillRandom(int* arr, const size_t size);
-void Zamena(int* arr, const size_t size);
-int deln(int* arr, const size_t size, int N);
-int findFirstDifferentSigns(int* arr, const size_t size);
+
+/**
+ * @brief Создаёт копию массива того же размера.
+ * @param arr Исходный массив.
+ * @param size Размер массива.
+ * @return int* Новый массив–копия.
+ */
 int* copyArray(const int* arr, const size_t size);
 
+/**
+ * @brief Заменяет предпоследний элемент массива элементом с максимальным абсолютным значением.
+ * @param arr Массив.
+ * @param size Размер массива.
+ */
+void Zamena(int* arr, const size_t size);
+
+/**
+ * @brief Считает количество элементов массива, делящихся на N без остатка.
+ * @param arr Массив.
+ * @param size Размер массива.
+ * @param N Делитель (не должен быть равен нулю).
+ * @return int Количество элементов, кратных N.
+ */
+int deln(int* arr, const size_t size, int N);
+
+/**
+ * @brief Находит первую пару соседних элементов, имеющих разные знаки.
+ * @param arr Массив.
+ * @param size Размер массива.
+ * @return int Индекс первого элемента пары; -1, если пара не найдена.
+ */
+int findFirstDifferentSigns(int* arr, const size_t size);
+
+/**
+@brief Manual - заполнение массива рандомно
+@brief Random - заполнение массива рандомно
+*/
 enum{Manual=1, Random=2};
 
 int main(){
-    srand(time(NULL));
-    
     printf("Введите размер массива: ");
     size_t size = getSize();
     
@@ -46,7 +101,6 @@ int main(){
     
     printf("\nИсходный массив: ");
     printArray(arr, size);
-    
     int* arr_copy1 = copyArray(arr, size);
     printf("\n\n1. Замена предпоследнего элемента на максимальный по модулю:");
     Zamena(arr_copy1, size);
@@ -76,7 +130,7 @@ int main(){
 int Value()
 {
     int value = 0;
-    if (!scanf_s("%d", &value))
+    if (!scanf("%d", &value))
     {
         printf("ERROR\n");
         abort();
@@ -167,7 +221,7 @@ int deln(int* arr, const size_t size, int N){
 int findFirstDifferentSigns(int* arr, const size_t size){
     for (size_t i = 0; i < size - 1; i++){
         if ((arr[i] > 0 && arr[i + 1] < 0) || (arr[i] < 0 && arr[i + 1] > 0)){
-            return i; 
+            return i;
         }
     }
     return -1;
