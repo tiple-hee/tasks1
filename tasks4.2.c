@@ -7,7 +7,16 @@
  * @return int — введённое пользователем число.
  */
 int Value();
-
+/** 
+ * @brief Преобразует двумерный массив в одномерный.
+ *
+ * @param arr Двумерный массив.
+ * @param rows Количество строк.
+ * @param columns Количество столбцов.
+ * @param flatSize Указатель для записи размера одномерного массива.
+ * @return int* Одномерный массив.
+ */
+int* flattenArray(int** arr, const size_t rows, const size_t columns, int* flatSize);
 /**
  * @brief Считывает размер массива (натуральное число).
  *
@@ -85,7 +94,7 @@ void chekrow(const size_t row, const size_t rows);
  * @param rows Количество строк.
  * @param columns Количество столбцов.
  */
-void replaceabs(int** arr, size_t rows, size_t columns);
+void replaceabs(int** arr,const  size_t rows,const size_t columns);
 
 /**
  * @brief Создаёт новый массив, добавляя число K после каждого элемента,
@@ -97,7 +106,17 @@ void replaceabs(int** arr, size_t rows, size_t columns);
  * @param newSize Указатель для записи размера нового массива.
  * @return int* Новый массив, содержащий дополнительные элементы.
  */
-int* kposlech(const int* arr, int size, int K, int* newSize);
+int* kposlech(const int* arr,const int size,const int K, int* newSize);
+/**
+ * @brief Преобразует двумерный массив в одномерный.
+ *
+ * @param arr Двумерный массив.
+ * @param rows Количество строк.
+ * @param columns Количество столбцов.
+ * @param flatSize Указатель для записи размера одномерного массива.
+ * @return int* Одномерный массив.
+ */
+int* flattenArray(int** arr, const size_t rows, const size_t columns, int* flatSize);
 
 /**
  * @brief Создаёт массив M на основе массива P:
@@ -141,7 +160,6 @@ int main()
             freeArray(arr, rows);
             return 1;
     }
-
     printf("Исходный массив:\n");
 printArray(arr, rows, columns);
 
@@ -149,19 +167,21 @@ replaceabs(arr, rows, columns);
 
 printf("Массив после replaceabs:\n");
 printArray(arr, rows, columns);
-int flatSize = rows * columns;
-int* flat = malloc(flatSize * sizeof(int));
-int idx = 0;
-
-for (size_t i = 0; i < rows; i++)
-    for (size_t j = 0; j < columns; j++)
-        flat[idx++] = arr[i][j];
-freeArray(arr, rows);
+int flatSize = 0;
+    int* flat = flattenArray(arr, rows, columns, &flatSize);
+    if (!flat)
+    {
+        printf("Ошибка при преобразовании массива!\n");
+        freeArray(arr, rows);
+        return 1;
+    }
+    freeArray(arr, rows);
+    arr = NULL;
 
 printf("Введите K: ");
 int K = Value();
 
-int newSize;
+int newSize=0;
 int* flat2 = kposlech(flat, flatSize, K, &newSize);
 
 printf("\nМассив после kposlech:\n");
@@ -170,6 +190,7 @@ printArray1D(flat2, newSize);
 int* M = createArrayP(flat2, newSize);
 
 printf("Массив M (результат createArrayP):\n");
+
 printArray1D(M, newSize);
 free(flat);
 free(flat2);
@@ -243,7 +264,7 @@ int** getArray(const size_t rows, const size_t columns)
     int** arr = malloc(rows * sizeof(int*));
     if (!arr)
     {
-        printf("Ошибка выделения памяти!\n");
+         printf("Ошибка выделения памяти для массива указателей!\n");  
         exit(1);
     }
 
@@ -252,7 +273,10 @@ int** getArray(const size_t rows, const size_t columns)
         arr[i] = malloc(columns * sizeof(int));
         if (!arr[i])
         {
-            printf("Ошибка выделения памяти!\n");
+            for (size_t j = 0; j < i; j++)
+                free(arr[j]);
+            free(arr);
+            printf("Ошибка выделения памяти для строки %zu!\n", i);
             exit(1);
         }
     }
@@ -307,7 +331,7 @@ void replaceabs(int** arr, size_t rows, size_t columns)
     }
 }
 
-int* kposlech(const int* arr, int size, int K, int* newSize)
+int* kposlech(const int* arr,const int size,const int K, int* newSize)
 {
     int insertCount = 0;
     for (int i = 0; i < size; i++)
