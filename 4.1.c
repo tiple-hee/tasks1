@@ -25,7 +25,7 @@ void fillArray(int* arr, const size_t size);
  * @param arr Массив для печати.
  * @param size Размер массива.
  */
-void printArray(int* arr, const size_t size);
+void printArray(const int* arr, const size_t size);
 
 /**
  * @brief Заполняет массив случайными числами 
@@ -56,7 +56,7 @@ void Zamena(int* arr, const size_t size);
  * @param N Делитель (не должен быть равен нулю).
  * @return int Количество элементов, кратных N.
  */
-int deln(int* arr, const size_t size, int N);
+int deln(const int* arr, const size_t size,const int N);
 
 /**
  * @brief Находит первую пару соседних элементов, имеющих разные знаки.
@@ -64,7 +64,7 @@ int deln(int* arr, const size_t size, int N);
  * @param size Размер массива.
  * @return int Индекс первого элемента пары; -1, если пара не найдена.
  */
-int findFirstDifferentSigns(int* arr, const size_t size);
+int findFirstDifferentSigns(const int* arr, const size_t size);
 
 /**
 @brief Manual - заполнение массива рандомно
@@ -158,7 +158,7 @@ void fillArray(int* arr, const size_t size)
     }
 }
 
-void printArray(int* arr, const size_t size)
+void printArray(const int* arr, const size_t size)
 {
     for (size_t i = 0; i < size; i++)
     {
@@ -168,8 +168,8 @@ void printArray(int* arr, const size_t size)
 
 void fillRandom(int* arr, const size_t size)
 {
-    const int start = Value();
-    const int end = Value();
+    int start = Value();
+    int end = Value();
     printf("Диапазон заполнения: [%d; %d]\n", start, end);
     for (size_t i = 0; i < size; i++)
     {
@@ -209,7 +209,7 @@ void Zamena(int* arr, const size_t size){
     arr[size - 2] = arr[max_index];
 }
 
-int deln(int* arr, const size_t size, int N){
+int deln(const int* arr, const size_t size, int N){
     if (N == 0) {
         printf("Ошибка: деление на ноль!");
         return 0;
@@ -224,7 +224,7 @@ int deln(int* arr, const size_t size, int N){
     return count;
 }
 
-int findFirstDifferentSigns(int* arr, const size_t size){
+int findFirstDifferentSigns(const int* arr, const size_t size){
     for (size_t i = 0; i < size - 1; i++){
         if ((arr[i] > 0 && arr[i + 1] < 0) || (arr[i] < 0 && arr[i + 1] > 0)){
             return i;
