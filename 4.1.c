@@ -110,7 +110,7 @@ int main(){
     
     printf("\n\n2. Количество элементов, делящихся на N без остатка");
     printf("\nВведите число N: ");
-    int N = Value();
+    const int N = Value();
     int count = deln(arr, size, N);
     printf("Количество элементов, делящихся на %d: %d", N, count);
     
@@ -168,8 +168,8 @@ void printArray(int* arr, const size_t size)
 
 void fillRandom(int* arr, const size_t size)
 {
-    int start = -30;
-    int end = 70;
+    const int start = Value();
+    const int end = Value();
     printf("Диапазон заполнения: [%d; %d]\n", start, end);
     for (size_t i = 0; i < size; i++)
     {
@@ -180,6 +180,12 @@ void fillRandom(int* arr, const size_t size)
 int* copyArray(const int* arr, const size_t size)
 {
     int* copyArr = malloc(sizeof(int) * size);
+     if (copyArr == NULL)
+    {
+        printf("Ошибка выделения памяти ");
+        return NULL;
+    }
+
     for (size_t i = 0; i < size; i++)
     {
         copyArr[i] = arr[i];
@@ -190,7 +196,7 @@ int* copyArray(const int* arr, const size_t size)
 void Zamena(int* arr, const size_t size){
     if (size < 2) {
         printf("\nМассив слишком мал для замены предпоследнего элемента");
-        return;
+        exit(1);
     }
     
     int max_index = 0;
