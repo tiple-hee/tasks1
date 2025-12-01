@@ -51,7 +51,7 @@ int main()
     printf("Введите n:");
     int n = getValue();
     checkPositive(n);
-    printf("Сумма %d чисел последовательности равна %.4lf\n",
+    printf("Сумма %d чисел последовательности равн@а %.4lf\n",
                     n,getSumN(n));
     printf("Введите e:");
     double e = getDouble();
@@ -59,7 +59,6 @@ int main()
     printf("Сумма последовательности с точностью "
             "%lf равна %.4lf\n",
                     e,getSumE(e));
-
     return 0;
 }
 
@@ -99,7 +98,7 @@ double getSumN(const int n)
 
 double getRecurent(const int i)
 {
-    return (i + 1) / ((i + 2) * (i - 1));
+    return (double)(-  (i + 2) / ( i * (i+3)));
 }
 
 void checkPositive(const double value)
