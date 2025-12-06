@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /**
  * @brief Считывает целое число с клавиатуры с проверкой корректности.
@@ -56,7 +57,7 @@ void Zamena(int* arr, const size_t size);
  * @param N Делитель (не должен быть равен нулю).
  * @return int Количество элементов, кратных N.
  */
-int deln(const int* arr, const size_t size,const int N);
+int deln(const int* arr, const size_t size, const int N);
 
 /**
  * @brief Находит первую пару соседних элементов, имеющих разные знаки.
@@ -67,41 +68,48 @@ int deln(const int* arr, const size_t size,const int N);
 int findFirstDifferentSigns(const int* arr, const size_t size);
 
 /**
-@brief Manual - заполнение массива рандомно
-@brief Random - заполнение массива рандомно
+@brief MANUAL - заполнение массива вручную
+@brief RANDOM - заполнение массива рандомно
 */
-enum{Manual=1, Random=2};
+enum{MANUAL=1, RANDOM=2};
 
 int main(){
     printf("Введите размер массива: ");
     size_t size = getSize();
-    
     int* arr = malloc(size * sizeof(int));
     if (arr == NULL)
     {
-        printf("error");
-        exit(1);
+        printf("Ошибка выделения памяти\n");
+        abort();
     }
     
-    printf("Выберите способ заполнения массива %d-вручную,%d-рандомно: ", Manual, Random);
+    printf("Выберите способ заполнения массива %d-вручную,%d-рандомно: ", MANUAL, RANDOM);
     int choice = Value();
     switch(choice)
     {
-        case (Random):
+        case (RANDOM):
             fillRandom(arr, size);
             break;
-        case (Manual):
+        case (MANUAL):
             fillArray(arr, size);
             break;
         default:
-            printf("error");
+            printf("Неверный выбор\n");
             free(arr);
-            exit(1);
+            abort();
     }
     
     printf("\nИсходный массив: ");
     printArray(arr, size);
+    
     int* arr_copy1 = copyArray(arr, size);
+    if (arr_copy1 == NULL)
+    {
+        printf("Ошибка создания копии массива\n");
+        free(arr);
+        abort();
+    }
+    
     printf("\n\n1. Замена предпоследнего элемента на максимальный по модулю:");
     Zamena(arr_copy1, size);
     printf("\nРезультат: ");
@@ -114,7 +122,7 @@ int main(){
     int count = deln(arr, size, N);
     printf("Количество элементов, делящихся на %d: %d", N, count);
     
-    printf("\n\n3. Поиск первой пары соседних элементов с разными знаками");
+    printf("\n\n3. Поиск первой пары соседних элементов с разными знаки");
     int pairIndex = findFirstDifferentSigns(arr, size);
     if (pairIndex != -1) {
         printf("\nПервая пара с разными знаками найдена на позициях %d и %d", pairIndex, pairIndex + 1);
@@ -132,7 +140,7 @@ int Value()
     int value = 0;
     if (!scanf("%d", &value))
     {
-        printf("ERROR\n");
+        printf("Ошибка ввода\n");
         abort();
     }
     return value;
@@ -143,7 +151,7 @@ size_t getSize()
     int value = Value();
     if (value <= 0)
     {
-        printf("ERROR");
+        printf("Размер должен быть положительным числом\n");
         abort();
     }
     return (size_t)value;
@@ -151,6 +159,12 @@ size_t getSize()
 
 void fillArray(int* arr, const size_t size)
 {
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в fillArray\n");
+        abort();
+    }
+    
     for (size_t i = 0; i < size; i++)
     {
         printf("Введите элемент [%zu]: ", i);
@@ -160,6 +174,12 @@ void fillArray(int* arr, const size_t size)
 
 void printArray(const int* arr, const size_t size)
 {
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в printArray\n");
+        return;
+    }
+    
     for (size_t i = 0; i < size; i++)
     {
         printf("%d ", arr[i]);
@@ -168,8 +188,22 @@ void printArray(const int* arr, const size_t size)
 
 void fillRandom(int* arr, const size_t size)
 {
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в fillRandom\n");
+        abort();
+    }
+    printf("Введите нижнюю границу диапазона: ");
     int start = Value();
+    printf("Введите верхнюю границу диапазона: ");
     int end = Value();
+    
+    if (start > end)
+    {
+        printf("Ошибка: нижняя граница больше верхней\n");
+        return;
+    }
+    
     printf("Диапазон заполнения: [%d; %d]\n", start, end);
     for (size_t i = 0; i < size; i++)
     {
@@ -179,11 +213,17 @@ void fillRandom(int* arr, const size_t size)
 
 int* copyArray(const int* arr, const size_t size)
 {
-    int* copyArr = malloc(sizeof(int) * size);
-     if (copyArr == NULL)
+    if (arr == NULL)
     {
-        printf("Ошибка выделения памяти ");
-        return NULL;
+        printf("Ошибка: передан NULL указатель в copyArray\n");
+        abort();
+    }
+    
+    int* copyArr = malloc(sizeof(int) * size); 
+    if (copyArr == NULL)
+    {
+        printf("Ошибка выделения памяти при копировании\n");
+        abort();
     }
 
     for (size_t i = 0; i < size; i++)
@@ -193,10 +233,17 @@ int* copyArray(const int* arr, const size_t size)
     return copyArr;
 }
 
-void Zamena(int* arr, const size_t size){
+void Zamena(int* arr, const size_t size)
+{
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в Zamena\n");
+        abort();
+    }
+    
     if (size < 2) {
         printf("\nМассив слишком мал для замены предпоследнего элемента");
-        exit(1);
+        return;
     }
     
     int max_index = 0;
@@ -209,9 +256,16 @@ void Zamena(int* arr, const size_t size){
     arr[size - 2] = arr[max_index];
 }
 
-int deln(const int* arr, const size_t size, int N){
+int deln(const int* arr, const size_t size, int N)
+{
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в deln\n");
+        abort();
+    }
+    
     if (N == 0) {
-        printf("Ошибка: деление на ноль!");
+        printf("Ошибка: деление на ноль!\n");
         return 0;
     }
     
@@ -224,10 +278,17 @@ int deln(const int* arr, const size_t size, int N){
     return count;
 }
 
-int findFirstDifferentSigns(const int* arr, const size_t size){
+int findFirstDifferentSigns(const int* arr, const size_t size)
+{
+    if (arr == NULL)
+    {
+        printf("Ошибка: передан NULL указатель в findFirstDifferentSigns\n");
+        abort();
+    }
+    
     for (size_t i = 0; i < size - 1; i++){
         if ((arr[i] > 0 && arr[i + 1] < 0) || (arr[i] < 0 && arr[i + 1] > 0)){
-            return i;
+            return (int)i;
         }
     }
     return -1;
