@@ -2,188 +2,121 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
-
 /**
  * @brief Считывает вещественное значение с клавиатуры с проверкой ввода
  * @return считанное значение
  */
-double getDouble();
-
-/*
+double Double();
+/**
  * @brief Проверяет, что минимальное значение меньше максимального
  * @param min минимальное значение промежутка
  * @param max максимальное значение промежутка
  */
-void checkMM(const double min, const double max);
-
-/*
+void checkMinandMax(const double min, const double max);
+/**
  * @brief Проверяет, что шаг функции положительный
- * @param step значение шага функции
+ * @param shag значение шага функции
  */
-void checkStep(const double step);
-
-/*
+void checkShag(const double shag);
+/**
  * @brief Проверяет, что число положительное
  * @param value проверяемое значение
  */
-void checkPositive(const double value);
-
-/*
- * @brief Вычисляет значение заданной функции
- * @param x значение параметра x
- * @param variant номер варианта (1 или 2)
+void checkPlus(const double value);
+/**
+ * @brief Вычисляет синус от x
+ * @param x значение параментра x
  * @return рассчитанное значение
  */
-double func(const double x, const int variant);
-
-/*
+double Functionsinus(const double x);
+/**
  * @brief Вычисляет коэффициент рекуррентного выражения
  * @param n текущий индекс
- * @param x значение параметра x
- * @param variant номер варианта (1 или 2)
- * @return рассчитанное значение
+ * @param x значение параментра x
+ * @return рассчитанное значение 
  */
-double getRecurrent(const int n, const double x, const int variant);
-
-/*
- * @brief Считает сумму членов ряда с точностью e
+double Rec(const int n, const double i);
+/**
+ * @brief Считает сумму членов последовательности с точностью e
  * @param e заданная точность
  * @param x значение параметра x
- * @param variant номер варианта (1 или 2)
  * @return рассчитанное значение
  */
-double getSumE(const double e, const double x, const int variant);
-
-/*
+double getSumE(const double e, const double x);
+/**
  * @brief Точка входа в программу
  * @return 0, если программа выполнена корректно, иначе 1
  */
 int main()
 {
-    int variant;
-    printf("Выберите вариант функции (1 или 2):\n");
-    printf("1: y = 3**x \n");
-    printf("2: y = sin(x)\n");
-    printf("Ваш выбор: ");
-    
-  if (scanf("%d", &variant) != 1)
-{
-    printf("Ошибка ввода: введите целое число\n");
-    exit(1);
-}
-
-if (variant != 1 && variant != 2)
-{
-    printf("Ошибка: выберите 1 или 2\n");
-    exit(1);
-}
-
-    printf("Введите начальное значение: ");
-    double min = getDouble();
-    printf("Введите конечное значение: ");
-    double max = getDouble();
-    checkMM(min, max);
+    printf("Введите первичное значение: ");
+    double min = Double();
+    printf("Введите окончательное значение: ");
+    double max = Double();
+    checkMinandMax(min, max);
     printf("Введите шаг: ");
-    double step = getDouble();
-    checkStep(step);
-    printf("Введите точность e: ");
-    double e = getDouble();
-    checkPositive(e);
-    for (double x = min; x <= max + DBL_EPSILON; x += step)
+    double shag = Double();
+    checkShag(shag);
+    printf("Введите e: ");
+    double e = Double();
+    checkPlus(e);
+    for (double x = min; x <= max + DBL_EPSILON; x += shag)
     {
-        printf("x = %.4lf, y(x) = %.6lf, S(x) = %.6lf\n",
-               x, func(x, variant), getSumE(e, x, variant));
+        printf("x = %.4lf, sin(x) = %.6lf, S = %.6lf\n", x, Functionsinus(x), getSumE(e, x));
     }
     return 0;
 }
-
-double getDouble()
+double Double()
 {
     double value = 0;
     if (!scanf("%lf", &value))
     {
-        printf("Ошибка, введено неверное значение!\n");
+        printf("Ошибка в вводе значения\n");
         exit(1);
     }
     return value;
 }
-
-void checkMM(const double min, const double max)
+void checkMinandMax(const double min, const double max)
 {
     if (min + DBL_EPSILON >= max)
     {
-        printf("Ошибка, минимальное значение должно быть меньше максимального!\n");
+        printf("Error: должно быть (Min < max)\n");
         exit(1);
     }
 }
-
-void checkStep(const double step)
+void checkShag(const double shag)
 {
-    if (step <= DBL_EPSILON)
+    if (shag <= DBL_EPSILON)
     {
-        printf("Ошибка, шаг должен быть положительным!\n");
+        printf("Ошибка,шаг должен быть >0 !\n");
         exit(1);
     }
 }
-
-void checkPositive(const double value)
+void checkPlus(const double value)
 {
     if (value <= DBL_EPSILON)
     {
-        printf("Ошибка, число должно быть положительным!\n");
+        printf("Ошибка,число должно быть + \n");
         exit(1);
     }
 }
 
-double func(const double x, const int variant)
+double Functionsinus(const double x)
 {
-    if (variant == 1)
-    {
-        return pow(3.0, x);
-    }
-    else 
-    {
-        return sin(x);
-    }
+    return sin(x);
 }
-
-double getRecurrent(const int n, const double x, const int variant)
+double Rec(const int n, const double i)
 {
-    if (variant == 1)
-    {
-        return (log(3.0) * x) / n;
-    }
-    else 
-    {
-        return -x * x / ((2.0 * n + 1.0) * (2.0 * n + 2.0));
-    }
+    return -pow(i,2) / ((2.0 * n + 2.0) * (2.0 * n + 3.0));
 }
-
-double getSumE(const double e, const double x, const int variant)
+double getSumE(const double e, const double x)
 {
-    double current, sum;
-    
-    if (variant == 1)
+    double cur = x;
+    double summa = cur;
+    for (int n = 0; fabs(cur) > e; n++)
     {
-        current = 1.0;
-        sum = current;
-        
-        for (int n = 1; fabs(current) > e; n++)
-        {
-            current *= getRecurrent(n, x, variant);
-            sum += current;
-        }
+        cur *= Rec(n, x);
+        summa += cur;
     }
-    else
-    {
-        current = x;
-        sum = current;
-        
-        for (int n = 0; fabs(current) > e; n++)
-        {
-            current *= getRecurrent(n, x, variant);
-            sum += current;
-        }
-    }
-    return sum;
+    return summa;
 }
