@@ -74,7 +74,10 @@ void insertK(int** arr, size_t* size, int K);
  * @param size Размер массивов.
  */
 void createArrayMP(int* P, int* M, const size_t size);
-
+/**
+@brief MANUAL - заполнение массива вручную
+@brief RANDOM - заполнение массива рандомно
+*/
 enum {RANDOM = 1, MANUAL};
 
 int main()
