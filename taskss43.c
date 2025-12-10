@@ -109,8 +109,9 @@ void generateSequenceRow(int* row, const size_t columns);
 void copyRow(int* dest, int* src, const size_t columns);
 
 /**
- * @brief варианты заполнения массива
- */
+@brief MANUAL - заполнение массива вручную
+@brief RANDOM - заполнение массива рандомно
+*/
 enum { RANDOM = 1, MANUAL };
 
 int main()
